@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>My Portfolio</title>
+    
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+
+    <style>
+        /* 기본 스타일 초기화 */
+        body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 { text-align: center; margin: 50px 0; font-size: 36px; }
+
+        /* 2. 중앙 정렬 및 모바일 최적화 컨테이너 */
+        .container { 
+            max-width: 1200px; /* PC에서의 최대 폭 */
+            margin: 0 auto; /* 좌우 중앙 정렬 */
+            padding: 20px;
+            display: grid;
+            
+            /* 3. 모바일 반응형 그리드 시스템 */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 화면 크기에 따라 자동으로 열 개수 조절 */
+            gap: 30px; /* 아이템 사이 간격 */
+            justify-content: center; /* 그리드 자체를 중앙 정렬 */
+        }
+
+        /* 포트폴리오 아이템 스타일 */
+        .item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center; /* 텍스트 중앙 정렬 */
+        }
+
+        .item:hover {
+            transform: translateY(-5px); /* 마우스 올렸을 때 살짝 들리는 효과 */
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .item a { text-decoration: none; color: inherit; display: block; }
+
+        /* 4. 썸네일 크기 통일 핵심 CSS */
+        .thumbnail-wrapper {
+            width: 100%;
+            padding-top: 75%; /* 4:3 비율 유지 (원하는 비율로 조절 가능) */
+            position: relative;
+            overflow: hidden;
+            background-color: #eee; /* 이미지 로딩 전 배경색 */
+        }
+
+        .thumbnail-wrapper img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 이미지가 찌그러지지 않고 꽉 차게 조절 */
+            object-position: center; /* 이미지 중앙을 기준으로 자름 */
+            transition: transform 0.5s ease;
+        }
+        
+        .item:hover .thumbnail-wrapper img {
+            transform: scale(1.1); /* 마우스 올렸을 때 이미지 확대 효과 */
+        }
+
+        /* 제목 스타일 */
+        .item p { 
+            padding: 20px; 
+            margin: 0; 
+            font-size: 18px; 
+            font-weight: 600;
+            white-space: nowrap; /* 제목이 길어도 한 줄로 유지 */
+            overflow: hidden; /* 넘치는 부분 숨김 */
+            text-overflow: ellipsis; /* ...으로 표시 */
+        }
+
+        /* 모바일용 추가 반응형 스타일 */
+        @media (max-width: 600px) {
+            h1 { font-size: 28px; margin: 30px 0; }
+            .container { gap: 20px; padding: 15px; }
+            .item p { font-size: 16px; padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Portfolio</h1>
+    
+    <div class="container">
+        {% for project in projects %}
+        <div class="item">
+            <a href="{% url 'project_detail' pk=project.pk %}">
+                <div class="thumbnail-wrapper">
+                    {% if project.thumbnail %}
+                        <img src="{{ project.thumbnail.url }}" alt="{{ project.title }}">
+                    {% else %}
+                        <div style="width:100%; height:100%; background:#eee;"></div>
+                    {% endif %}
+                </div>
+                <p>{{ project.title }}</p>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

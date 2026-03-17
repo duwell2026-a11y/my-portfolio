@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ project.title }} - Detail</title>
+    
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+
+    <style>
+        body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Pretendard', sans-serif; 
+            background-color: #ffffff; 
+            color: #1d1d1f; /* 애플 스타일의 짙은 회색 */
+            line-height: 1.6;
+        }
+
+        /* 상단 헤더 영역 */
+        .header { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 80px 20px 40px 20px; 
+            text-align: center; 
+        }
+
+        .header h1 { 
+            font-size: 32px; 
+            font-weight: 700; 
+            margin-bottom: 15px; 
+            letter-spacing: -0.5px;
+        }
+
+        .header p { 
+            font-size: 18px; 
+            color: #86868b; 
+            max-width: 600px; 
+            margin: 0 auto 30px auto;
+            word-break: keep-all; /* 단어 단위 줄바꿈으로 깔끔하게 */
+        }
+
+        /* 이미지 컨테이너 */
+        .content { 
+            width: 100%; 
+            max-width: 1000px; /* 너무 넓으면 보기 힘드므로 제한 */
+            margin: 0 auto; 
+        }
+
+        .image-wrapper { 
+            line-height: 0; /* 이미지 사이 미세한 틈 제거 */
+        }
+
+        .image-wrapper img { 
+            width: 100%; 
+            height: auto; 
+            display: block; 
+            margin: 0;
+        }
+
+        /* 하단 버튼 영역 */
+        .footer {
+            text-align: center;
+            padding: 60px 20px 100px 20px;
+        }
+
+        .back-btn { 
+            display: inline-block; 
+            padding: 15px 35px; 
+            background: #000; 
+            color: #fff; 
+            text-decoration: none; 
+            border-radius: 30px; 
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #333;
+            transform: scale(1.05);
+        }
+
+        /* 모바일 대응 (화면이 768px보다 작을 때) */
+        @media (max-width: 768px) {
+            .header { padding: 50px 20px 30px 20px; }
+            .header h1 { font-size: 24px; }
+            .header p { font-size: 16px; }
+            .back-btn { width: 80%; padding: 12px 0; } /* 모바일에서 버튼을 넓게 */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>{{ project.title }}</h1>
+        <p>{{ project.content }}</p>
+    </div>
+
+    <div class="content">
+        <div class="image-wrapper">
+            {% for img_obj in project.images.all %}
+                <img src="{{ img_obj.image.url }}" alt="Portfolio Detail">
+            {% empty %}
+                <p style="text-align:center; padding: 50px; color: #ccc;">등록된 상세 이미지가 없습니다.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="/" class="back-btn">목록으로 돌아가기</a>
+    </div>
+
+</body>
+</html>
